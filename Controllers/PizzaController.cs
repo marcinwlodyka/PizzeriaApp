@@ -9,52 +9,59 @@ using Microsoft.Extensions.Logging;
 
 namespace PizzeriaApp.Controllers {
     public class PizzaController : Controller {
-        public static Dictionary<int, Pizza> menu = new Dictionary<int, Pizza> {
-            { 1, new Pizza() { Id = 1, Name = "test1", Ingredients = "ass", Image="https://cdn.aniagotuje.com/pictures/articles/2022/08/31553098-v-1500x1500.jpg" } },
-            { 2, new Pizza() { Id = 2, Name = "test2", Ingredients = "ass", Image="https://obiaddlataty.pl/wp-content/uploads/2020/02/domowa_pizza-scaled.jpg" } },
-            { 3, new Pizza() { Id = 3, Name = "test3", Ingredients = "ass", Image="https://cdn.aniagotuje.com/pictures/articles/2022/08/31553098-v-1500x1500.jpg" } },
-            { 4, new Pizza() { Id = 4, Name = "test3", Ingredients = "ass", Image="https://cdn.aniagotuje.com/pictures/articles/2022/08/31553098-v-1500x1500.jpg" } },
-            { 5, new Pizza() { Id = 5, Name = "test3", Ingredients = "ass", Image="https://cdn.aniagotuje.com/pictures/articles/2022/08/31553098-v-1500x1500.jpg" } },
-            { 6, new Pizza() { Id = 6, Name = "test3", Ingredients = "ass", Image="https://cdn.aniagotuje.com/pictures/articles/2022/08/31553098-v-1500x1500.jpg" } },
-            { 7, new Pizza() { Id = 7, Name = "test3", Ingredients = "ass", Image="https://cdn.aniagotuje.com/pictures/articles/2022/08/31553098-v-1500x1500.jpg" } },
-        };
+        private static AppDbContext _context = new AppDbContext();
         
-        public static int i = 8;
+        public IActionResult Index() => View(_context.Menu.ToList<Pizza>());
 
-        public IActionResult Index() => View(menu);
-
-        public IActionResult CreateForm() => View();
+        public IActionResult Create() => View();
 
        [HttpPost] 
         public IActionResult Create([FromForm] Pizza pizza) {
-            if (!ModelState.IsValid) return View("CreateForm");
+            if (!ModelState.IsValid) return View();
 
-            menu[i] = new Pizza() { Id = i, Name = pizza.Name, Ingredients = pizza.Ingredients, Image = pizza.Image };
-            i++;
+             _context.Menu.Add(pizza);
+            _context.SaveChanges();
 
-            return View("Index", menu);
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult EditForm([FromRoute] int id) {
-            if (menu.ContainsKey(id)) return View(menu[id]);
+        public IActionResult Edit([FromRoute] int id) {
+            Pizza? foundPizza = _context.Menu.Find(id);
 
-            return View("Index", menu);
+            if (foundPizza is null) return RedirectToAction(nameof(Index));
+
+            return View(foundPizza);
         }
 
         [HttpPost]
         public IActionResult Edit([FromForm] Pizza pizza) {
-            if (!ModelState.IsValid) return View("EditForm");
+            if (!ModelState.IsValid) return View();
 
-            menu[pizza.Id] = pizza;
+            Pizza? foundPizza = _context.Menu.Find(pizza.Id);
 
-            return View("Index", menu);
+            if (foundPizza is not null) {
+                foundPizza.Name = pizza.Name;
+                foundPizza.Ingredients = pizza.Ingredients;
+                foundPizza.Image = pizza.Image;
+
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
         }
 
         public IActionResult Delete([FromRoute] int id)
         {
-            menu.Remove(id);
+            Pizza? foundPizza = _context.Menu.Find(id);
 
-            return View("Index", menu);
+            if (foundPizza is not null) {
+                _context.Menu.Remove(foundPizza);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

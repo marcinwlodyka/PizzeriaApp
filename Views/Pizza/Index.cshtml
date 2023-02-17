@@ -1,39 +1,46 @@
-@model Dictionary<int, Pizza>
+@model IList<Pizza>
+@{
+    ViewData["Title"] = "Menu";
+}
 
 <div class="w-full flex flex-col gap-8">
-  @foreach (var entry in @Model) {
-    var pizza = entry.Value;
+  @if (@Model.Count > 0) {
+    @foreach (var pizza in @Model) {
+      <div class="h-[15vh] p-5 flex gap-3 bg-black border-b-2 border-red-500 rounded-lg shadow-lg shadow-black">
+        <img
+          src="@pizza.Image"
+          alt="Pizza image"
+          class="h-full aspect-square object-cover rounded-md"
+        />
 
-    <div class="h-[15vh] p-5 flex gap-3 bg-black border-b-2 border-red-500 rounded-lg shadow-lg shadow-black">
-      <img
-        src="@pizza.Image"
-        alt="Pizza image"
-        class="h-full aspect-square object-cover rounded-md"
-      />
+        <div class="flex flex-col grow">
+          <h3 class=" text-2xl">@pizza.Name</h3>
 
-      <div class="flex flex-col grow">
-        <h3 class=" text-2xl">@pizza.Name</h3>
+          <span class="text-white/60">@pizza.Ingredients</span>
+        </div>
 
-        <span class="text-white/60">@pizza.Ingredients</span>
+        <a
+          asp-controller="Pizza"
+          asp-action="Delete"
+          asp-route-id=@pizza.Id
+          class="h-min py-1 px-2 bg-red-500 rounded"
+        >
+          remove
+        </a>
+
+        <a
+          asp-action="Edit"
+          asp-controller="Pizza"
+          asp-route-id=@pizza.Id
+          class="h-min py-1 px-2 bg-black border border-white/20 rounded"
+        >
+          edit
+        </a>
       </div>
-
-      <a
-        asp-controller="Pizza"
-        asp-action="Delete"
-        asp-route-id=@pizza.Id
-        class="h-min py-1 px-2 bg-red-500 rounded"
-      >
-        remove
-      </a>
-
-      <a
-        asp-action="EditForm"
-        asp-controller="Pizza"
-        asp-route-id=@pizza.Id
-        class="h-min py-1 px-2 bg-black border border-white/20 rounded"
-      >
-        edit
-      </a>
+    }
+  } else {
+    <div class="h-[15vh] w-full p-5 flex justify-center items-center border border-dotted border-white/10 rounded-lg">
+      <span class="text-2xl opacity-40">There is nothing here 💀</span>
     </div>
   }
 
@@ -45,7 +52,11 @@
     <span class="h-3 w-3 bg-white/5 rounded-full"></span>
   </div>
 
-  <a href="/pizza/createform" class="h-[15vh] p-5 pt-0 flex flex-col justify-center items-center bg-white/5 border border-transparent rounded-lg hover:bg-black hover:border-red-500 group">
+  <a
+    asp-action="Create"
+    asp-controller="Pizza"
+    class="h-[15vh] p-5 pt-0 flex flex-col justify-center items-center bg-white/5 border border-transparent rounded-lg hover:bg-black hover:border-red-500 group"
+  >
     <span class="text-7xl text-white/40 group-hover:text-red-500">+</span>
 
     <span class="text-white/40 group-hover:text-red-500">Add new pizza</span>
