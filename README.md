@@ -27,5 +27,5 @@ dotnet run # to start server
 ### Clicking `Edit` will take you to edit form page
 ![alt text](./doc/edit.png)
 
-### Clicking `Add new pizza will` take you to creation form
+### Clicking `Add new pizza` will take you to creation form
 ![alt text](./doc/add.png)
