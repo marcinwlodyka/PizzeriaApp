@@ -11,7 +11,9 @@ dotnet: `7.0`
 
 ```bash
 git clone https://github.com/marcinwlodyka/PizzeriaApp.git
-dotnet run # to start server
+dotnet tool install --global dotnet-ef
+dotnet ef database update                                   # to create database
+dotnet run                                                  # to start server
 ```
 
 ## Usage
