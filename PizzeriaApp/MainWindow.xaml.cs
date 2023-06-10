@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PizzeriaApp.Services;
 
 namespace PizzeriaApp
 {
@@ -20,9 +21,25 @@ namespace PizzeriaApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly PizzaService _pizzaService;
+
         public MainWindow()
         {
+            _pizzaService = new PizzaService();
+
             InitializeComponent();
+            _getItems();
+        }
+
+        private async void _getItems()
+        {
+            var pizzas = await _pizzaService.Get();
+
+            PizzasList.ItemsSource = pizzas.Select(p => new {
+                Name = p.Name,
+                Ingredients = string.Join(", ", p.Ingredients.Select(i => i.Name)),
+                Price = $"{p.Price:0.00} zł"
+            });
         }
     }
 }

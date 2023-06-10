@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:PizzeriaApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0">Pizzeria App</TextBlock>
+        
+        <DataGrid x:Name="PizzasList" Grid.Row="1"></DataGrid>
     </Grid>
 </Window>
