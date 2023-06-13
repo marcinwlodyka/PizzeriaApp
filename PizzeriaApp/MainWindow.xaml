@@ -5,8 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:PizzeriaApp"
+    xmlns:viewmodels="clr-namespace:PizzeriaApp.ViewModels"
+    xmlns:views="clr-namespace:PizzeriaApp.Views"
     mc:Ignorable="d"
-    Title="MainWindow" Height="450" Width="800"
+    Title="Pizzeria App"
+    Height="450"
+    Width="800"
     Background="Black"
     Foreground="White"
     FontWeight="Bold">
@@ -32,14 +36,14 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
-
+    
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="70" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid Margin="0 0 0 20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -48,11 +52,21 @@
             <TextBlock Grid.Row="0" FontSize="40" VerticalAlignment="Center">🍕 Pizzeria App</TextBlock>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Template="{StaticResource MainBtn}" Padding="5" Margin="0 0 20 0">🗒️ Menu</Button>
-                <Button Template="{StaticResource MainBtn}" Padding="5">🚚 Orders</Button>
+                <Button Template="{StaticResource MainBtn}" Padding="5" Margin="0 0 20 0" Command="{Binding NavigateMenuCommand}">🗒️ Menu</Button>
+                <Button Template="{StaticResource MainBtn}" Padding="5" Command="{Binding NavigateOrdersCommand}">🚚 Orders</Button>
             </StackPanel>
         </Grid>
-
-        <DataGrid x:Name="PizzasList" Grid.Row="1" Grid.Column="0" Margin=" 0 20 0 0 " Background="Black" />
+        
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
+                    <views:MenuView />
+                </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type viewmodels:OrdersViewModel}">
+                    <views:Orders />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

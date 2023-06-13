@@ -14,36 +14,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PizzeriaApp.Models;
 using PizzeriaApp.Services;
+using PizzeriaApp.ViewModels;
 
-namespace PizzeriaApp
+namespace PizzeriaApp;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        private readonly PizzaService _pizzaService;
-
-        public MainWindow()
-        {
-            _pizzaService = new PizzaService();
-
-            InitializeComponent();
-            _getItems();
-        }
-
-        private static string _formatIngredients(IEnumerable<Ingredient> ingredients) =>
-            string.Join(", ", ingredients.Select(i => i.Name));
-
-        private async void _getItems()
-        {
-            var pizzas = await _pizzaService.Get();
-
-            PizzasList.ItemsSource = pizzas.Select(p => new {
-                Name = p.Name,
-                Ingredients = _formatIngredients(p.Ingredients),
-                Price = $"{p.Price:0.00} zł"
-            });
-        }
+        InitializeComponent();
     }
 }
