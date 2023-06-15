@@ -1,10 +1,12 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
+using PizzeriaApp.ViewModels;
 
 namespace PizzeriaApp.Views;
 
-public partial class Orders : UserControl
+public partial class OrdersView : UserControl
 {
-    public Orders()
+    public OrdersView()
     {
         InitializeComponent();
     }

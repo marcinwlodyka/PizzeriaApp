@@ -5,9 +5,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:PizzeriaApp.Views"
+    xmlns:viewmodels="clr-namespace:PizzeriaApp.ViewModels"
     mc:Ignorable="d"
-    d:DesignHeight="450" d:DesignWidth="800">
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MenuViewModel}">
     <Grid>
-        <DataGrid x:Name="PizzasList" Background="Black" />
+        <DataGrid x:Name="PizzasList" Background="Black" ItemsSource="{Binding Pizzas}" />
     </Grid>
 </UserControl>

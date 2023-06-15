@@ -1,12 +1,15 @@
-﻿<UserControl x:Class="PizzeriaApp.Views.Orders"
+﻿<UserControl x:Class="PizzeriaApp.Views.OrdersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PizzeriaApp.Views"
+             xmlns:viewmodels="clr-namespace:PizzeriaApp.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewmodels:OrdersViewModel}">
     <Grid>
-        <TextBlock>orders</TextBlock>
+        <TextBlock Text="{Binding Title}"/>
     </Grid>
 </UserControl>

@@ -21,8 +21,6 @@ public partial class App : Application
     {
         var navigationStore = new NavigationStore();
 
-        navigationStore.CurrentViewModel = new MenuViewModel();
-            
         MainWindow = new MainWindow()
         {
             DataContext = new MainViewModel(navigationStore)

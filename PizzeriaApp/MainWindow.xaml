@@ -13,7 +13,8 @@
     Width="800"
     Background="Black"
     Foreground="White"
-    FontWeight="Bold">
+    FontWeight="Bold"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
     <Window.Resources>
         <ControlTemplate x:Key="MainBtn" TargetType="Button">
             <Grid Cursor="Hand">
@@ -57,14 +58,14 @@
             </StackPanel>
         </Grid>
         
-        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
+        <ContentControl Grid.Row="1"  Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
                     <views:MenuView />
                 </DataTemplate>
                 
                 <DataTemplate DataType="{x:Type viewmodels:OrdersViewModel}">
-                    <views:Orders />
+                    <views:OrdersView />
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

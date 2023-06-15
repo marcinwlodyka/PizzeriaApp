@@ -5,8 +5,8 @@ namespace PizzeriaApp.Stores;
 
 public class NavigationStore
 {
-    public event Action CurrentViewModelChanged;
-    public ViewModelBase _currentViewModel;
+    private ViewModelBase _currentViewModel;
+    public event Action? CurrentViewModelChanged;
 
     public ViewModelBase CurrentViewModel
     {
@@ -16,6 +16,11 @@ public class NavigationStore
             _currentViewModel = value;
             OnCurrentViewModelChanged();
         }
+    }
+    
+    public NavigationStore()
+    {
+        _currentViewModel = new MenuViewModel();
     }
 
     private void OnCurrentViewModelChanged()
