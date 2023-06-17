@@ -16,28 +16,13 @@
     FontWeight="Bold"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}">
     <Window.Resources>
-        <ControlTemplate x:Key="MainBtn" TargetType="Button">
-            <Grid Cursor="Hand">
-                <Border x:Name="bg" Background="Black" CornerRadius="24" Margin="0.7" />
-                <Border x:Name="border" CornerRadius="24" BorderThickness="5" BorderBrush="White" />
-                <ContentPresenter
-                    x:Name="text"
-                    Margin="25 10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    TextBlock.FontSize="20"
-                    TextBlock.FontWeight="Black"
-                    TextBlock.Foreground="White" />
-            </Grid>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter TargetName="bg" Property="Background" Value="White" />
-                    <Setter TargetName="text" Property="TextBlock.Foreground" Value="Black" />
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Common/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
@@ -53,17 +38,20 @@
             <TextBlock Grid.Row="0" FontSize="40" VerticalAlignment="Center">🍕 Pizzeria App</TextBlock>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Template="{StaticResource MainBtn}" Padding="5" Margin="0 0 20 0" Command="{Binding NavigateMenuCommand}">🗒️ Menu</Button>
+                <Button Template="{StaticResource MainBtn}" Padding="5" Margin="0 0 20 0"
+                        Command="{Binding NavigateMenuCommand}">
+                    🗒️ Menu
+                </Button>
                 <Button Template="{StaticResource MainBtn}" Padding="5" Command="{Binding NavigateOrdersCommand}">🚚 Orders</Button>
             </StackPanel>
         </Grid>
-        
-        <ContentControl Grid.Row="1"  Content="{Binding CurrentViewModel}">
+
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
                     <views:MenuView />
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type viewmodels:OrdersViewModel}">
                     <views:OrdersView />
                 </DataTemplate>
