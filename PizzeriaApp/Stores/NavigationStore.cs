@@ -1,4 +1,5 @@
 ﻿using System;
+using PizzeriaApp.Models;
 using PizzeriaApp.ViewModels;
 
 namespace PizzeriaApp.Stores;
@@ -17,10 +18,10 @@ public class NavigationStore
             OnCurrentViewModelChanged();
         }
     }
-    
-    public NavigationStore()
+
+    public NavigationStore(ContextFactory contextFactory)
     {
-        _currentViewModel = new MenuViewModel();
+        _currentViewModel = new MenuViewModel(contextFactory);
     }
 
     private void OnCurrentViewModelChanged()

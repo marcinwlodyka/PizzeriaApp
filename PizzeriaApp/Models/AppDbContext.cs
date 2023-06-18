@@ -6,20 +6,21 @@ namespace PizzeriaApp.Models;
 
 public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
+    private readonly string _dbPath;
+
     public DbSet<Pizza> Pizzas { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
-    private string DbPath;
 
-    public AppDbContext()
+    public AppDbContext(DbContextOptions options) : base(options)
     {
         const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
 
-        DbPath = System.IO.Path.Join(path, "pizzeria.db");
+        _dbPath = System.IO.Path.Join(path, "pizzeria.db");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseSqlite($"Data Source={DbPath}");
+        optionsBuilder.UseSqlite($"Data Source={_dbPath}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
