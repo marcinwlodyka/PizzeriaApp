@@ -56,5 +56,19 @@ public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
                 new { PizzasId = 2, IngredientsId = 2 },
                 new { PizzasId = 3, IngredientsId = 1 }
             ));
+
+        modelBuilder.Entity<Order>()
+            .HasMany(o => o.OrderItems)
+            .WithOne(i => i.Order);
+
+        modelBuilder.Entity<Size>().HasData(
+            new Size() { Id = 1, Name = "Small", PriceMultiplier = 1 },
+            new Size() { Id = 2, Name = "Medium", PriceMultiplier = 1.25f },
+            new Size() { Id = 3, Name = "Large", PriceMultiplier = 1.5f }
+        );
+
+        modelBuilder.Entity<Size>()
+            .HasMany(s => s.OrderItems)
+            .WithOne(i => i.Size);
     }
 }
