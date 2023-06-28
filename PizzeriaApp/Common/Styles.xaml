@@ -22,4 +22,25 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+
+    <!-- Round button template -->
+    <ControlTemplate x:Key="RoundBtn" TargetType="Button">
+        <Grid Cursor="Hand">
+            <Border x:Name="bg" Background="Black" CornerRadius="24" Margin="0.7" />
+            <Border x:Name="border" CornerRadius="24" BorderThickness="5" BorderBrush="White" />
+            <ContentPresenter
+                x:Name="text"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                TextBlock.FontSize="20"
+                TextBlock.FontWeight="Black"
+                TextBlock.Foreground="White" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="bg" Property="Background" Value="White" />
+                <Setter TargetName="text" Property="TextBlock.Foreground" Value="Black" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 </ResourceDictionary>

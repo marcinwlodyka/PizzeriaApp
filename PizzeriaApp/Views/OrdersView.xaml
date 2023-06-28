@@ -8,8 +8,199 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance Type=viewmodels:OrdersViewModel}">
+             d:DataContext="{d:DesignInstance Type=viewmodels:OrdersViewModel}"
+             Background="Black"
+             Foreground="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Common/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
-        <TextBlock Text="{Binding Title}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid ItemsSource="{Binding Orders}" Background="Black" />
+
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Foreground="White"
+                               FontSize="30"
+                               FontWeight="Bold"
+                               TextAlignment="Center"
+                               Margin="0 10">
+                        Orders
+                    </TextBlock>
+
+                    <ListView ItemsSource="{Binding OrderItems}"
+                              Background="Black"
+                              BorderBrush="Transparent">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="White"
+                                        BorderThickness="5"
+                                        CornerRadius="30"
+                                        Margin="5">
+                                    <Grid Margin="30 15">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <TextBlock Margin=" 0 0 5 0" Foreground="White">
+                                                Pizza:
+                                            </TextBlock>
+                                            <ComboBox Width="100"
+                                                      ItemsSource="{
+                                                        Binding RelativeSource={RelativeSource AncestorType=UserControl},
+                                                        Path=DataContext.Pizzas
+                                                      }"
+                                                      SelectedItem="{Binding Pizza, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+                                            <TextBlock Margin="0 5 0 0" Foreground="White">
+                                                Size:
+                                            </TextBlock>
+                                            <ComboBox Width="100"
+                                                      ItemsSource="{
+                                                        Binding RelativeSource={RelativeSource AncestorType=UserControl},
+                                                        Path=DataContext.Sizes
+                                                      }"
+                                                      SelectedItem="{Binding Size, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                            <TextBlock Foreground="White">
+                                                Amount:
+                                            </TextBlock>
+                                            <TextBox Height="20"
+                                                     Text="{Binding Amount, Mode=TwoWay}" />
+
+                                            <TextBlock Foreground="White" Margin="0 15 0 0">Price:</TextBlock>
+                                            <WrapPanel>
+                                                <TextBlock Text="{Binding Amount}"
+                                                           Foreground="White"
+                                                           Margin="0 0 5 0" />
+
+                                                <TextBlock Foreground="White"
+                                                           Margin="0 0 5 0">
+                                                    *
+                                                </TextBlock>
+
+                                                <TextBlock Text="{Binding Size.PriceMultiplier}"
+                                                           Foreground="White"
+                                                           Margin="0 0 5 0" />
+
+                                                <TextBlock Foreground="White"
+                                                           Margin="0 0 5 0">
+                                                    *
+                                                </TextBlock>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Foreground="White">
+                                                        $
+                                                    </TextBlock>
+
+                                                    <TextBlock Text="{Binding Pizza.Price}"
+                                                               Foreground="White" />
+                                                </StackPanel>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+
+                    <Grid Margin="0 20 0 0" Height="85">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock FontSize="13">Order total (press "⟳" icon to recalculate):</TextBlock>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   FontSize="13"
+                                   FontWeight="Black"
+                                   Text="{Binding OrderTotal}" />
+
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                BorderBrush="White"
+                                BorderThickness="1" />
+
+                        <Button Grid.Row="3"
+                                Grid.Column="0"
+                                Template="{StaticResource MainBtn}"
+                                Command="{Binding AddOrderItemCommand}"
+                                Margin="0 0 10 0">
+                            ➕ Add pizza
+                        </Button>
+
+                        <Button Grid.Row="3"
+                                Grid.Column="1"
+                                Template="{StaticResource RoundBtn}"
+                                Command="{Binding CalculatePriceCommand}"
+                                Padding="0">
+                            ⟳
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <Button
+            Grid.Row="2"
+            Template="{StaticResource MainBtn}"
+            Command="{Binding AddOrderCommand}">
+            Make order
+        </Button>
     </Grid>
 </UserControl>

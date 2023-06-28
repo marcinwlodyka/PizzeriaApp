@@ -4,12 +4,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PizzeriaApp.Models;
 
-public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
+public class AppDbContext : DbContext
 {
     private readonly string _dbPath;
 
     public DbSet<Pizza> Pizzas { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<Size> Sizes { get; set; }
+
+    public AppDbContext()
+    {
+        const Environment.SpecialFolder folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+
+        _dbPath = System.IO.Path.Join(path, "pizzeria.db");
+    }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {

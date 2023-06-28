@@ -20,7 +20,7 @@ public class MainViewModel : ViewModelBase
         _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
 
         NavigateMenuCommand = new NavigateMenuCommand(_navigationStore, contextFactory);
-        NavigateOrdersCommand = new NavigateOrdersCommand(_navigationStore);
+        NavigateOrdersCommand = new NavigateOrdersCommand(_navigationStore, contextFactory);
     }
 
     private void OnCurrentViewModelChanged()

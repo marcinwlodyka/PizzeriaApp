@@ -19,6 +19,12 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs startupEventArgs)
     {
+        using (var context = new AppDbContext())
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+        }
+
         var contextFactory = new ContextFactory();
         var navigationStore = new NavigationStore(contextFactory);
 

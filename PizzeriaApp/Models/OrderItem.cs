@@ -7,4 +7,6 @@ public class OrderItem
     public Pizza Pizza { get; set; } = new Pizza();
     public Size Size { get; set; } = new Size();
     public Order Order { get; set; } = new Order();
+
+    public override string ToString() => $"{Amount} * {Size.Name} {Pizza.Name}";
 }

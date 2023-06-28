@@ -6,8 +6,5 @@ namespace PizzeriaApp.Views;
 
 public partial class OrdersView : UserControl
 {
-    public OrdersView()
-    {
-        InitializeComponent();
-    }
+    public OrdersView() => InitializeComponent();
 }
