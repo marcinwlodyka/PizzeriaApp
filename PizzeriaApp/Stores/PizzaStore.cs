@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using PizzeriaApp.Models;
 using PizzeriaApp.Services;
@@ -38,6 +39,14 @@ public class PizzaStore
     public async void AddPizza(Pizza pizza)
     {
         await _pizzaService.Add(pizza);
+        Load();
+    }
+
+    public async void RemovePizza(int id)
+    {
+        if (_pizzas.Count() <= 1) return;
+
+        await _pizzaService.Remove(id);
         Load();
     }
 }

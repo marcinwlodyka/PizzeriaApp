@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ namespace PizzeriaApp.ViewModels;
 
 public struct FormattedPizza
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Ingredients { get; set; }
     public string Price { get; set; }
@@ -30,6 +32,7 @@ public class MenuViewModel : ViewModelBase
     public IEnumerable<FormattedPizza> Pizzas => _GetFormattedPizzas(_pizzaStore.Pizzas);
     public List<SelectableIngredient> Ingredients { get; private set; } = new();
     public ICommand AddPizzaCommand { get; }
+    public ICommand RemovePizzaCommand { get; set; }
 
     public string? InputName { get; set; }
     private float? _inputPrice;
@@ -47,6 +50,7 @@ public class MenuViewModel : ViewModelBase
         _pizzaStore.PizzasChanged += _OnPizzasChanged;
 
         AddPizzaCommand = new GenericCommand(_AddPizza);
+        RemovePizzaCommand = new GenericCommand(_RemovePizza);
 
         _GetIngredient();
     }
@@ -71,9 +75,18 @@ public class MenuViewModel : ViewModelBase
         _pizzaStore.AddPizza(pizza);
     }
 
+    private void _RemovePizza(Object? obj)
+    {
+        if (obj is FormattedPizza pizza)
+            _pizzaStore.RemovePizza(pizza.Id);
+        else
+            Debug.WriteLine("Bad object");
+    }
+
     private static IEnumerable<FormattedPizza> _GetFormattedPizzas(IEnumerable<Pizza> pizzas) => pizzas.Select(p =>
         new FormattedPizza()
         {
+            Id = p.Id,
             Name = p.Name,
             Ingredients = string.Join(", ", p.Ingredients.Select(i => i.Name)),
             Price = $"${p.Price:0.00}"

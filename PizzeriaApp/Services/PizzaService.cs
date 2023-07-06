@@ -42,6 +42,21 @@ public class PizzaService
     }
 
     /// <summary>
+    /// Asynchronously removes pizza from database
+    /// </summary>
+    /// <param name="id">Id of pizza that you want ot remove</param>
+    public async Task Remove(int id)
+    {
+        var context = _contextFactory.CreateDbContext();
+        var pizza = await context.Pizzas.FindAsync(id);
+
+        if (pizza is null) return;
+
+        context.Pizzas.Remove(pizza);
+        await context.SaveChangesAsync();
+    }
+
+    /// <summary>
     /// Asynchronously gets ingredients from database
     /// </summary>
     /// <returns>List of all ingredients from database</returns>
