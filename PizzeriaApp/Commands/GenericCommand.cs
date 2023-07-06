@@ -5,7 +5,13 @@ namespace PizzeriaApp.Commands;
 
 public class GenericCommand : CommandBase
 {
-    private readonly Action _callback;
+    private readonly Action? _callback;
+    private readonly Action<Object?>? _callbackParam;
+
+    public GenericCommand(Action<Object?> callback)
+    {
+        _callbackParam = callback;
+    }
 
     public GenericCommand(Action callback)
     {
@@ -14,6 +20,7 @@ public class GenericCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
-        _callback();
+        _callback?.Invoke();
+        _callbackParam?.Invoke(parameter);
     }
 }
