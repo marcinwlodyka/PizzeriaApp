@@ -40,9 +40,88 @@
                 Menu
             </TextBlock>
 
-            <DataGrid Grid.Row="1"
-                      Background="Black"
-                      ItemsSource="{Binding Pizzas}" />
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Border BorderBrush="White"
+                            BorderThickness=" 0 0 0 5"
+                            Margin="5">
+                        <Grid Margin="30 15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       TextAlignment="Left"
+                                       Foreground="White"
+                                       FontWeight="Bold">
+                                Name
+                            </TextBlock>
+                            <TextBlock Grid.Column="1"
+                                       TextAlignment="Left"
+                                       Foreground="White"
+                                       FontWeight="Bold">
+                                Ingredients
+                            </TextBlock>
+                            <TextBlock Grid.Column="2"
+                                       TextAlignment="Left"
+                                       Foreground="White"
+                                       FontWeight="Bold">
+                                Price
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+
+                    <ListView ItemsSource="{Binding Pizzas}"
+                              Background="Black"
+                              BorderBrush="Transparent">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="White"
+                                        BorderThickness="5"
+                                        CornerRadius="30"
+                                        Margin="5">
+                                    <Grid Margin="30 15">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   TextAlignment="Left"
+                                                   Text="{Binding Name}"
+                                                   Foreground="White" />
+                                        <TextBlock Grid.Column="1"
+                                                   TextAlignment="Left"
+                                                   Text="{Binding Ingredients}"
+                                                   Foreground="White" />
+                                        <TextBlock Grid.Column="2"
+                                                   TextAlignment="Left"
+                                                   Text="{Binding Price}"
+                                                   Foreground="White" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
